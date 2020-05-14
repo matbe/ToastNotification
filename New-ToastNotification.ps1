@@ -63,7 +63,9 @@
               Created Test-NTsystem function
                 - Testing if the script is being run as SYSTEM. This is not supported  
               Converted all Get-WMIObject to Get-CimInstance
-                - Get-WMIObject has been deprecated and is replaced with Get-CimInstance                
+                - Get-WMIObject has been deprecated and is replaced with Get-CimInstance
+                
+    1.6.1 -   Buxfix for AD functions where users have limitied read rights in the root of Active Directory and a search scope needs to be defined.
 
 .LINK
     https://www.imab.dk/windows-10-toast-notification-script/
@@ -199,7 +201,11 @@ function Get-GivenName() {
     Clear-Variable -Name GivenName -ErrorAction SilentlyContinue
     try {
         Add-Type -AssemblyName System.DirectoryServices.AccountManagement
-        $PrincipalContext = [System.DirectoryServices.AccountManagement.PrincipalContext]::new([System.DirectoryServices.AccountManagement.ContextType]::Domain, [System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain())
+        If($ADLimitSearchScopeEnabled -eq "True") {
+            $PrincipalContext = [System.DirectoryServices.AccountManagement.PrincipalContext]::new([System.DirectoryServices.AccountManagement.ContextType]::Domain,[System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain(),$ADLimitSearchScopeValue)
+        } else {
+            $PrincipalContext = [System.DirectoryServices.AccountManagement.PrincipalContext]::new([System.DirectoryServices.AccountManagement.ContextType]::Domain,[System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain())
+        }
         $GivenName = ([System.DirectoryServices.AccountManagement.Principal]::FindByIdentity($PrincipalContext,[System.DirectoryServices.AccountManagement.IdentityType]::SamAccountName,[Environment]::UserName)).GivenName
         $PrincipalContext.Dispose()
     }
@@ -294,7 +300,11 @@ function Get-ADPasswordExpiration([string]$fADPasswordExpirationDays) {
     try {
         Write-Log -Message "Looking up SamAccountName and DomainName in local Active Directory"
         Add-Type -AssemblyName System.DirectoryServices.AccountManagement
-        $PrincipalContext = [System.DirectoryServices.AccountManagement.PrincipalContext]::new([System.DirectoryServices.AccountManagement.ContextType]::Domain,[System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain())
+        If($ADLimitSearchScopeEnabled -eq "True") {
+            $PrincipalContext = [System.DirectoryServices.AccountManagement.PrincipalContext]::new([System.DirectoryServices.AccountManagement.ContextType]::Domain,[System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain(),$ADLimitSearchScopeValue)
+        } else {
+            $PrincipalContext = [System.DirectoryServices.AccountManagement.PrincipalContext]::new([System.DirectoryServices.AccountManagement.ContextType]::Domain,[System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain())
+        }
         $SamAccountName = ([System.DirectoryServices.AccountManagement.Principal]::FindByIdentity($PrincipalContext,[System.DirectoryServices.AccountManagement.IdentityType]::SamAccountName,[Environment]::UserName)).SamAccountName
         $DomainName = ([System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()).Name
         $PrincipalContext.Dispose()
@@ -617,6 +627,8 @@ try {
     $ADPasswordExpirationTextEnabled = $Xml.Configuration.Option | Where-Object {$_.Name -like 'ADPasswordExpirationText'} | Select-Object -ExpandProperty 'Enabled'
     $ADPasswordExpirationTextValue = $Xml.Configuration.Option | Where-Object {$_.Name -like 'ADPasswordExpirationText'} | Select-Object -ExpandProperty 'Value'
     $ADPasswordExpirationDays = $Xml.Configuration.Option | Where-Object {$_.Name -like 'ADPasswordExpirationDays'} | Select-Object -ExpandProperty 'Value'
+    $ADLimitSearchScopeEnabled = $Xml.Configuration.Option | Where-Object {$_.Name -like 'ADLimitSearchScope'} | Select-Object -ExpandProperty 'Enabled'
+    $ADLimitSearchScopeValue = $Xml.Configuration.Option | Where-Object {$_.Name -like 'ADLimitSearchScope'} | Select-Object -ExpandProperty 'Value'
     $TargetOS = $Xml.Configuration.Option | Where-Object {$_.Name -like 'TargetOS'} | Select-Object -ExpandProperty 'Build'
     $DeadlineEnabled = $Xml.Configuration.Option | Where-Object {$_.Name -like 'Deadline'} | Select-Object -ExpandProperty 'Enabled'
     $DeadlineContent = $Xml.Configuration.Option | Where-Object {$_.Name -like 'Deadline'} | Select-Object -ExpandProperty 'Value'
