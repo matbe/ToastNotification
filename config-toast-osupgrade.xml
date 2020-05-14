@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Configuration>
+	<Feature Name="Toast" Enabled="True" /> <!-- Enables or disables the entire toast notification -->
+	<Feature Name="UpgradeOS" Enabled="True" />	<!-- Specifies if the toast is used for OS upgrades. If set to True, the targetOS build is taking into account -->
+	<Feature Name="PendingRebootUptime" Enabled="False" />	<!-- Enables the toast for reminding users of restarting their device if it exceeds the uptime defined in MaxUptimeDays -->
+	<Feature Name="PendingRebootCheck" Enabled="False" />	<!-- Enables the toast for reminding users of pending reboots found in registry/WMI -->
+	<Feature Name="ADPasswordExpiration" Enabled="False" />	<!-- Enables the toast for reminding users of expiring Active Directory passwords -->
+	<Option Name="TargetOS" Build="18365" />	<!-- The actual build number of the targeted OS. 18362 = 1903 | 17763 = 1809. This option has no effect if OSUpgrade is set to False -->
+	<Option Name="MaxUptimeDays" Value="-6" />	<!-- When using the toast for checking for pending reboots. A reboot is considered pending if computer uptime exceeds the value set here -->
+	<Option Name="PendingRebootUptimeText" Enabled="False" Value="Your computer is required to restart due to having exceeded the maximum allowed uptime." />	<!-- Adds an additional group to the toast with text about the uptime of the computer -->
+	<Option Name="PendingRebootCheckText" Enabled="False" Value="Reason: Pending reboots was found in registry or WMI." />	<!-- Adds an additional group to the toast with text -->
+	<Option Name="ADPasswordExpirationText" Enabled="False" Value="Your password will expire on: " />	<!-- Adds an additional group to the toast with text -->
+	<Option Name="ADPasswordExpirationDays" Value="90" />	<!-- How many days in advance shall the toast start reminding the users  -->
+	<Option Name="RunPackageID" Enabled="False" Value="KR100907" /> <!-- Will enable the toast to run any ConfigMgr PackageID through a custom protocol -->
+	<Option Name="RunApplicationID" Enabled="True" Value="ScopeId_A9117680-D054-482B-BC97-532E6CBD0E6B/Application_fd55f35c-4e34-4490-a3ec-ee0b79233ec6" /> <!-- Will enable the toast to run any ConfigMgr ApplicationID through a custom protocol -->
+	<Option Name="Deadline" Enabled="False" Value="30-09-2019 08:00" />	<!-- Adds an additional group to the toast with text about the deadline of the OSUpgrade -->
+	<Option Name="DynamicDeadline" Enabled="True" Value="KR100907" />	<!-- Adds an additional group to the toast with text about the deadline of the OSUpgrade. This will retrieve the deadline of the IPU from WMI -->
+	<Option Name="UseSoftwareCenterApp" Enabled="True" />	<!-- The app in Windows doing the action notification - can't be both SoftwareCenter and Powershell -->
+	<Option Name="UsePowershellApp" Enabled="False" />	<!-- The app in Windows doing the action notification - can't be both SoftwareCenter and Powershell -->
+	<Option Name="CustomAudio" Enabled="False" TextToSpeech="Hey you - wake up. Your computer needs to restart. Do it now."/>
+	<Option Name="ActionButton" Enabled="True" Value="Install now" />	<!-- Enables or disables the action button. Value is equal to the name displayed on the button -->
+	<Option Name="DismissButton" Enabled="True" Value="Dismiss" />	<!-- Enables or disables the dismiss button. Value is equal to the name displayed on the button -->
+	<Option Name="SnoozeButton" Enabled="False" Value="Snooze" /> <!-- Enabling this option will always enable action button and dismiss button -->
+	<Option Name="Scenario" Type="reminder" />	<!-- Possible values are: reminder | short | long -->
+	<Option Name="Action" Value="ToastRunApplicationID:" />	<!-- Action taken when using the ActionButton. Can be link to SoftwareCenter if used with UpgradeOS -->
+	<Text Option="GreetGivenName" Enabled="True" />	<!-- Displays the toast with a personal greeting using the users given name retrieved from AD. Will try retrieval from WMI of no local AD -->
+	<Text Name="AttributionText">www.imab.dk</Text>
+	<Text Name="HeaderText">Helpdesk kindly reminds you...</Text>
+	<Text Name="TitleText">Windows 10 upgrade available!</Text>
+	<Text Name="BodyText1">There's a new Windows upgrade available. Do yourself a favor and install it yourself.... or we will do it for you ;-)</Text>
+	<Text Name="BodyText2">Don't worry! You will receive an adequate amount of reminders before any actions are taken automatically.</Text>
+	<Text Name="SnoozeText">Click snooze to be reminded again in:</Text>
+	<Text Name="DeadlineText">Your deadline is:</Text>
+	<Text Name="GreetMorningText">Good morning</Text>
+	<Text Name="GreetAfternoonText">Good afternoon</Text>
+	<Text Name="GreetEveningText">Good evening</Text>
+	<Text Name="MinutesText">Minutes</Text>
+	<Text Name="HourText">Hour</Text>
+	<Text Name="HoursText">Hours</Text>
+	<Text Name="ComputerUptimeText">Computer uptime:</Text>
+	<Text Name="ComputerUptimeDaysText">days</Text>
+</Configuration>
