@@ -7,9 +7,9 @@
 	<Feature Name="ADPasswordExpiration" Enabled="True" />	<!-- Enables the toast for reminding users of expiring Active Directory passwords -->
 	<Option Name="TargetOS" Build="18351" />	<!-- The actual build number of the targeted OS. 18362 = 1903 | 17763 = 1809. This option has no effect if OSUpgrade is set to False -->
 	<Option Name="MaxUptimeDays" Value="-6" />	<!-- When using the toast for checking for pending reboots. A reboot is considered pending if computer uptime exceeds the value set here -->
-	<Option Name="PendingRebootUptimeText" Enabled="False" Value="Your computer is required to restart due to having exceeded the maximum allowed uptime." />	<!-- Adds an additional group to the toast with text about the uptime of the computer -->
-	<Option Name="PendingRebootCheckText" Enabled="False" Value="Reason: Pending reboots was found in registry or WMI." />	<!-- Adds an additional group to the toast with text -->
-	<Option Name="ADPasswordExpirationText" Enabled="True" Value="Your password will expire on: " />	<!-- Adds an additional group to the toast with text -->
+	<Option Name="PendingRebootUptimeText" Enabled="False" />	<!-- Adds an additional group to the toast with text about the uptime of the computer -->
+	<Option Name="PendingRebootCheckText" Enabled="False" />	<!-- Adds an additional group to the toast with text -->
+	<Option Name="ADPasswordExpirationText" Enabled="True" />	<!-- Adds an additional group to the toast with text -->
 	<Option Name="ADPasswordExpirationDays" Value="20" />	<!-- How many days in advance shall the toast start reminding the users  -->
 	<Option Name="RunPackageID" Enabled="False" Value="KR100907" /> <!-- Will enable the toast to run any ConfigMgr PackageID through a custom protocol -->
 	<Option Name="RunApplicationID" Enabled="True" Value="ScopeId_A9117680-D054-482B-BC97-532E6CBD0E6B/Application_fd55f35c-4e34-4490-a3ec-ee0b79233ec6" /> <!-- Will enable the toast to run any ConfigMgr ApplicationID through a custom protocol -->
@@ -17,13 +17,20 @@
 	<Option Name="DynamicDeadline" Enabled="True" Value="KR1008C8" />	<!-- Adds an additional group to the toast with text about the deadline of the OSUpgrade. This will retrieve the deadline of the IPU from WMI -->
 	<Option Name="UseSoftwareCenterApp" Enabled="True" />	<!-- The app in Windows doing the action notification - can't be both SoftwareCenter and Powershell -->
 	<Option Name="UsePowershellApp" Enabled="False" />	<!-- The app in Windows doing the action notification - can't be both SoftwareCenter and Powershell -->
-	<Option Name="CustomAudio" Enabled="False" TextToSpeech="Hey you - wake up. Your computer needs to restart. Do it now."/>
-	<Option Name="ActionButton" Enabled="True" Value="Settings" />	<!-- Enables or disables the action button. Value is equal to the name displayed on the button -->
-	<Option Name="DismissButton" Enabled="True" Value="Dismiss" />	<!-- Enables or disables the dismiss button. Value is equal to the name displayed on the button -->
-	<Option Name="SnoozeButton" Enabled="False" Value="Snooze" /> <!-- Enabling this option will always enable action button and dismiss button -->
+	<Option Name="CustomAudio" Enabled="False" />
+	<Option Name="ActionButton" Enabled="True" />	<!-- Enables or disables the action button. Value is equal to the name displayed on the button -->
+	<Option Name="DismissButton" Enabled="True" />	<!-- Enables or disables the dismiss button. Value is equal to the name displayed on the button -->
+	<Option Name="SnoozeButton" Enabled="False" /> <!-- Enabling this option will always enable action button and dismiss button -->
 	<Option Name="Scenario" Type="reminder" />	<!-- Possible values are: reminder | short | long -->
 	<Option Name="Action" Value="ms-settings:signinoptions" />	<!-- Action taken when using the Action button. Can be any protocol in Windows -->
-	<Text Option="GreetGivenName" Enabled="True" />	<!-- Displays the toast with a personal greeting using the users given name retrieved from AD. Will try retrieval from WMI of no local AD -->
+	<Option Name="GreetGivenName" Enabled="True" />	<!-- Displays the toast with a personal greeting using the users given name retrieved from AD. Will try retrieval from WMI of no local AD -->
+	<Text Name="PendingRebootUptimeText">Your computer is required to restart due to having exceeded the maximum allowed uptime.</Text> <!-- Text used if the PendingRebootUptimeText Option is enabled -->
+	<Text Name="PendingRebootCheckText">Reason: Pending reboots was found in registry or WMI.</Text> <!-- Text used if the PendingRebootUptimeText Option is enabled -->
+	<Text Name="ADPasswordExpirationText">Your password will expire on: </Text> <!-- Text used if the ADPasswordExpirationText Option is enabled -->
+	<Text Name="CustomAudioTextToSpeech">Hey you - wake up. Your computer needs to restart. Do it now.</Text> <!-- Text to speech used if the CustomAudioTextToSpeech Option is enabled -->
+	<Text Name="ActionButton">Settings</Text>  <!-- Text on the ActionButton if enabled -->
+	<Text Name="DismissButton">Dismiss</Text> <!-- Text on the DismissButton if enabled -->
+	<Text Name="SnoozeButton">Snooze</Text> <!-- Text on the SnoozeButton if enabled -->
 	<Text Name="AttributionText">www.imab.dk</Text>
 	<Text Name="HeaderText">Helpdesk kindly reminds you...</Text>
 	<Text Name="TitleText">Don't let your password expire!</Text>
