@@ -70,6 +70,8 @@
     1.7   -   BREAKING Change! Added support for multilanguage and also  all text values to the text section. // Added by Matt Benninge @matbe
                 - Old config xml files need to be updated.
                 - Moved text values from option to the text-section for consistency and to allow multilanguage support
+                - Added new parameters '-LogoImage'  and '-HeroImage' to override default images.
+
 
 .LINK
     https://www.imab.dk/windows-10-toast-notification-script/
@@ -78,7 +80,13 @@
 [CmdletBinding()]
 param(
     [Parameter(HelpMessage='Path to XML Configuration File')]
-    [string]$Config
+    [string]$Config,
+    [parameter(Mandatory = $false, HelpMessage = "Overrides the Toast Logo Image. Path relative to script folder ie. -LogoImage 'Image Examples\Default\ToastLogoImage.jpg'")]
+    [ValidateNotNullOrEmpty()]
+    [string]$LogoImage,
+    [parameter(Mandatory = $false, HelpMessage = "Overrides the Toast Hero Image. Path relative to script folder ie. -HeroImage 'Image Examples\Default\ToastHeroImage.jpg'")]
+    [ValidateNotNullOrEmpty()]
+    [string]$HeroImage
 )
 
 ######### FUNCTIONS #########
@@ -566,8 +574,8 @@ function Test-NTSystem() {
 # Getting executing directory
 $global:ScriptPath = Split-Path -Parent $MyInvocation.MyCommand.Definition
 # Setting image variables
-$LogoImage = "file:///$global:ScriptPath/ToastLogoImage.jpg"
-$HeroImage = "file:///$global:ScriptPath/ToastHeroImage.jpg"
+if([string]::IsNullOrEmpty($LogoImage)){$LogoImage = "file:///$global:ScriptPath/ToastLogoImage.jpg"}else{$LogoImage = "file:///$global:ScriptPath/$LogoImage"}
+if([string]::IsNullOrEmpty($HeroImage)){$HeroImage = "file:///$global:ScriptPath/ToastHeroImage.jpg"}else{$HeroImage = "file:///$global:ScriptPath/$HeroImage"}
 $RunningOS = Get-CimInstance -Class Win32_OperatingSystem | Select-Object BuildNumber
 
 # Testing for prerequisites
