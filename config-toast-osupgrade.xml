@@ -31,6 +31,7 @@
 	<Text Name="ActionButton">Install now</Text>  <!-- Text on the ActionButton if enabled -->
 	<Text Name="DismissButton">Dismiss</Text> <!-- Text on the DismissButton if enabled -->
 	<Text Name="SnoozeButton">Snooze</Text> <!-- Text on the SnoozeButton if enabled -->
+	<Text Name="AttributionText">www.imab.dk</Text>
 	<Text Name="HeaderText">Helpdesk kindly reminds you...</Text>
 	<Text Name="TitleText">Windows 10 upgrade available!</Text>
 	<Text Name="BodyText1">There's a new Windows upgrade available. Do yourself a favor and install it yourself.... or we will do it for you ;-)</Text>
